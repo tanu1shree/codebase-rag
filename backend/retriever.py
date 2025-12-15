@@ -1,6 +1,7 @@
 from sentence_transformers import SentenceTransformer
 import faiss
 import numpy as np
+from planner import Planner
 
 class Retriever:
     def __init__(self, chunks):
@@ -39,9 +40,12 @@ if __name__ == "__main__":
     chunks = chunk_files(files)
 
     retriever = Retriever(chunks)
+    planner = Planner()
 
     query = "What does this project do?"
-    results = retriever.retrieve(query)
+    plan = planner.plan(query)
+
+    results = retriever.retrieve(query, top_k=plan["top_k"])
 
     print("Retrieved files:")
     for r in results:
