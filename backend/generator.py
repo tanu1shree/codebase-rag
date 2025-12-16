@@ -1,40 +1,29 @@
+from llm import call_llm
+
 def generate_answer(question, retrieved_chunks):
+
     if not retrieved_chunks:
         return "Insufficient context to answer the question."
-    
-    answer_lines = []
-    answer_lines.append(f"Question: {question}")
-    answer_lines.append("")
-    answer_lines.append("Relevant Code Files:")
+
+    context = ""
 
     for chunk in retrieved_chunks:
-        answer_lines.append(f"- {chunk['path']}")
+        MAX_CHARS = 2000
 
-    answer_lines.append("")
-    answer_lines.append("Summary based strictly on retrieved code:")
+        text = chunk["text"][:MAX_CHARS]
+        context += f"\nFILE: {chunk['path']}\n{text}\n"
 
-    for chunk in retrieved_chunks:
-        snippet = chunk["text"][:300].replace("\n", " ")
-        answer_lines.append(f"[{chunk['path']}] {snippet}...")
+    prompt = f"""
+    You are a Codebase Assistant.
+    Use ONLY the provided code below to answer the question.
+    Cite file names.
+    If the answer is not present, say you cannot answer.
 
-    return "\n".join(answer_lines)
+    QUESTION:
+    {question}
 
-if __name__ == "__main__":
-    from loader import load_codebase
-    from chunker import chunk_files
-    from retriever import Retriever
-    from planner import Planner
+    CODE:
+    {context}
+    """
 
-    files = load_codebase(".")
-    chunks = chunk_files(files)
-
-    retriever = Retriever(chunks)
-    planner = Planner()
-
-    question = "What does this project do?"
-    plan = planner.plan(question)
-
-    retrieved = retriever.retrieve(question, top_k = plan["top_k"])
-    answer = generate_answer(question, retrieved)
-
-    print(answer)
+    return call_llm(prompt)
