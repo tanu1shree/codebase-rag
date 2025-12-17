@@ -1,6 +1,6 @@
 import os
 
-CODE_EXTENSIONS = {".py", ".js", ".ts", ".java", ".go", ".rs"}
+CODE_EXTENSIONS = {".py", ".js", ".ts", ".java", ".go", ".rs", ".md"}
 
 EXCLUDE_FILES = {"main.py"}
 
