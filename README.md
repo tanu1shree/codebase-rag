@@ -27,7 +27,7 @@ The system retrieves relevant source files from a local repository using semanti
 
 ### LLM (Local, Offline)
 - Ollama (llama.cpp-based runtime)
-- Open-source model (e.g. `mistral`)
+- Open-source model (e.g. `phi`)
 
 ### Interface
 - Minimal local interface (CLI for MVP)
@@ -120,11 +120,11 @@ https://ollama.com
 
 Pull an open-source model:
 
-`ollama pull mistral`
+`ollama pull phi`
 
 Ensure Ollama is running:
 
-`ollama run mistral`
+`ollama run phi`
 
 (Ollama runs as a background service after this.)
 
