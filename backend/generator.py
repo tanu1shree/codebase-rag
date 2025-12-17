@@ -23,11 +23,13 @@ def generate_answer(question, retrieved_chunks):
     context = "\n".join(context_parts)
 
     prompt = (
-        "You are a codebase assistant.\n"
-        "Answer the question using ONLY the code below.\n"
-        "If the answer is not present, say \"Insufficient context.\"\n\n"
+        "TASK:\n"
+        "Explain what the code below does.\n"
+        "Use ONLY the provided code.\n"
+        "If the answer is not present, respond with: Insufficient context.\n\n"
         f"QUESTION:\n{question}\n\n"
-        f"CODE:\n{context}"
+        f"CODE:\n{context}\n\n"
+        "ANSWER:\n"
     )
 
     return call_llm(prompt)
