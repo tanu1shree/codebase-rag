@@ -12,7 +12,7 @@ def call_llm(prompt: str) -> str:
 
     response = requests.post(OLLAMA_URL, json=payload)
     
-    if response.status_Code != 200:
+    if response.status_code != 200:
         print("Ollama Error:", response.text)
         response.raise_for_status()
 
